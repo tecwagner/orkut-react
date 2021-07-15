@@ -1,0 +1,41 @@
+Configuarar o git hub para mostrar o projeto
+
+* Desafio 15/07/2021
+
+ - criar os modo de scrapts.
+
+
+ * Desafio 
+- componenteizar o BOX
+
+- criar lista de comunidade comunidade com o link
+
+- lista de seguidores mostrar a lista de usuario nome e foto
+
+
+* Guia de rotas do next js
+ - canal do mario
+
+
+
+https://dashboard.datocms.com/projects
+
+Exemplo de api de 
+https://www.datocms.com/docs/content-delivery-api/your-first-request
+
+* Ocultar o Token do datocms
+* Camada de segurança
+* BackEnd For FrontEnd (BFF)
+ . instalar o yarn add datocms-client
+ .para controlar as requisições e ocultar o token
+ * documentação: https://www.datocms.com/docs/content-management-api/using-the-nodejs-clients
+
+
+* Criar backend dentro do front do react com next.
+* Node está por baixo dos panos gerenciado as novas aplicações e retorna os dados ao navegador.
+* webpack / next.js
+
+* Criado de imagems
+https://metatags.io/
+
+* qual a diferença de fetch com axios?
