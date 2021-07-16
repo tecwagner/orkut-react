@@ -1,5 +1,10 @@
 Configuarar o git hub para mostrar o projeto
 
+*Desafio 16/07/2021
+ - fazer o logout
+ - carregar perfil dos usuarios
+ - mostrar mensagem de login usuario
+
 * Desafio 15/07/2021
 
  - criar os modo de scrapts.
@@ -38,4 +43,13 @@ https://www.datocms.com/docs/content-delivery-api/your-first-request
 * Criado de imagems
 https://metatags.io/
 
+* Instalado o nookies 
+ . yarn add nookies
+ * Para guardar dados do token do login
+   https://npm.io/package/nookies
+
 * qual a diferença de fetch com axios?
+
+Operadores de curto cirquito
+
+

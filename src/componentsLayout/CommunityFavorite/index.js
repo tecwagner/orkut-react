@@ -1,5 +1,5 @@
 const CommunityFavorite = (props) => {
-  console.log("comuni", props);
+  // console.log("comuni", props);
   return (
     <li key={props.id}>
       <a href={`/communities/${props.id}`}>

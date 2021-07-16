@@ -3,24 +3,17 @@ import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
 import { ProfileRelationsBoxWrapper } from "../src/components/ProfileRelations";
 import { AlurakutMenu, OrkutNostalgicIconSet } from "../src/lib/AluraCommons";
-
 import CommunityFavorite from "../src/componentsLayout/CommunityFavorite";
 import ProfileSidebar from "../src/componentsLayout/ProfileSidebar";
 import PeopleFavorite from "../src/componentsLayout/PeopleFavorite";
 import ProfileRelationBox from "../src/componentsLayout/ProfileRelationBox";
-import { v4 as uuid } from "uuid";
+import nookies from "nookies";
+import jwt from "jsonwebtoken";
 
-const Home = () => {
-  const gitHubUser = "tecwagner";
-  // const comunidades = ["Alurakut"];
+const Home = (props) => {
+  const name = props.githubUser;
   const [seguidores, setSeguidores] = useState([]);
-  const [comunidades, setComunidades] = useState([
-    {
-      id: "465456465",
-      title: "Eu Odeio acordar cedo!",
-      image: "https://alurakut.vercel.app/capa-comunidade-01.jpg",
-    },
-  ]);
+  const [comunidades, setComunidades] = useState([]);
   const peopleFavorite = [
     "juunegreiros",
     "omariosouto",
@@ -39,7 +32,7 @@ const Home = () => {
     const comunidade = {
       title: dadosDoForm.get("title"),
       imageUrl: dadosDoForm.get("image"),
-      createSlug: gitHubUser,
+      createSlug: name,
     };
 
     fetch("/api/comunidades", {
@@ -50,7 +43,6 @@ const Home = () => {
       body: JSON.stringify(comunidade),
     }).then(async (respComunidade) => {
       const dados = await respComunidade.json(comunidade);
-      console.log("dados", dados.registroCriado);
       const comunidade = dados.registroCriado;
 
       // hooks que irão receber o estado atual em seguida cria um novo objeto e atualiza o estado
@@ -66,9 +58,6 @@ const Home = () => {
         setSeguidores(resposta);
       }
     );
-    // .then((respCompleta) => {
-    //   setSeguidores(respCompleta);
-    // });
 
     // API GraphQL
     const token = "9226f916588bda80d0eb2161601910";
@@ -93,7 +82,6 @@ const Home = () => {
       .then((res) => res.json())
       .then((res) => {
         const comunidadeAPI = res.data.allCommunities;
-        console.log(comunidadeAPI);
         setComunidades(comunidadeAPI);
       })
       .catch((error) => {
@@ -103,10 +91,10 @@ const Home = () => {
 
   return (
     <>
-      <AlurakutMenu gitHubUser={gitHubUser} />
+      <AlurakutMenu gitHubUser={name} />
       <MainGrid>
         <div className={`profileArea`} style={{ gridArea: "profileArea" }}>
-          <ProfileSidebar gitHubUser={gitHubUser} />
+          <ProfileSidebar gitHubUser={name} />
         </div>
         <div className={`welcomeArea`} style={{ gridArea: "welcomeArea" }}>
           <Box>
@@ -183,3 +171,34 @@ const Home = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context);
+
+  const token = cookies.USER_TOKEN;
+
+  const { isAuthenticated } = await fetch(
+    "https://alurakut.vercel.app/api/auth",
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  ).then((resp) => resp.json());
+  console.log("auth", isAuthenticated);
+
+  if (!isAuthenticated) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { githubUser } = jwt.decode(token);
+  return {
+    props: { githubUser }, // will be passed to the page component as props
+  };
+  // console.log("pro", props);
+}
